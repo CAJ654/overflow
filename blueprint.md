@@ -1,50 +1,46 @@
 
-# Overflow
+# Overflow Game Blueprint
 
 ## Overview
 
-Overflow is a turn-based game focused on making sure you are the last remaining!
+This document outlines the blueprint for a web-based game called "Overflow". The game is a turn-based strategy game with a simple premise: be the last player standing. This document details the project's features, design, and implementation.
 
-## Project Outline
+## Features
 
-### Style and Design
+- **Two Game Modes:**
+  - **Overflow:** The last player remaining on the board wins.
+  - **Underflow:** The first player to be eliminated from the board wins.
+- **Customizable Game Setup:**
+  - **Player Count:** 2 to 4 players.
+  - **Grid Size:** 4x4 to 12x12.
+  - **Player Colors:** Players can choose their own colors.
+- **Light and Dark Modes:** The application features a dynamic theme that can be toggled between light and dark modes.
 
-*   **Theme:** Dark theme with purple accents.
-*   **Layout:** Centered layout with a main content area and two cards below.
-*   **Typography:** Large, bold heading for the main title, with smaller text for the description.
-*   **Color Palette:**
-    *   Background: `#1a1a1a`
-    *   Primary Text: `white`
-    *   Accent: `#6d28d9`
-*   **Components:**
-    *   Buttons: One filled purple button and one outlined button.
-    *   Cards: Two cards with a title and description.
-    *   Sliders: For selecting player count and grid size.
+## Design
 
-### Features
+- **Color Palette:**
+  - **Dark Mode:**
+    - Background: `#1a1a1a`
+    - Text: `white`
+    - Primary Accent: `#6d28d9`
+    - Card Background: `#2a2a2a`
+  - **Light Mode:**
+    - Background: `#f0f0f0`
+    - Text: `#1a1a1a`
+    - Primary Accent: `#92d726`
+    - Card Background: `#d5d5d5`
+- **Typography:** A clean, sans-serif font is used for readability.
 
-*   **Main Menu:**
-    *   Main heading with the text "Overflow".
-    *   Description text: "Overflow is a turn-based game focused on making sure you are the last remaining!"
-    *   "Enter Arena" button, which navigates to the Setup Screen.
-    *   "How to Play" button.
-    *   "Unique Minions" card with a description.
-    *   "Credits" card with links to YouTube and GitHub.
-*   **Setup Screen:**
-    *   A home button to return to the Main Menu.
-    *   A heading that says 'Setup' at the top center of the screen.
-    *   A slider for the number of players from 2-4.
-    *   A slider for grid size from 4-12.
-    *   A "Start Game" button.
+## Implementation Plan: Theming
 
-## Current Task
+The following steps have been taken to implement the light and dark mode functionality:
 
-Fix the overlap between the "Setup" heading and the "Home" button permanently.
-
-### Plan
-
-1.  Modify `src/lib/Setup.svelte`.
-2.  Keep the robust `display: flex` layout on the main container.
-3.  Remove the `padding-bottom` from the `.content-column` style.
-4.  This simplifies the vertical centering logic, ensuring the content is perfectly centered in the remaining space below the header, which will definitively fix the overlap issue across all screen sizes.
-
+1.  **Global Theme Management:**
+    - A global stylesheet in `App.svelte` defines CSS variables for the color palette.
+    - A `light-mode` class is toggled on the root element to switch between themes.
+2.  **Theme Toggle Button:**
+    - A button in the top-right corner of the screen toggles the `light-mode` class on the root element.
+    - The button's icon changes to reflect the current theme (sun for light, moon for dark).
+3.  **Component Styling:**
+    - All components have been updated to use the CSS variables defined in the global stylesheet.
+    - This ensures that all components will automatically update their styles when the theme changes.

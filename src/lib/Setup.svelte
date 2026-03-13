@@ -2,13 +2,23 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
 
+  export let isDarkMode: boolean;
   const dispatch = createEventDispatcher();
 
   let playerCount = 2;
   let gridSize = 4;
+  let playerColors = ['#ff0000', '#0000ff', '#00ff00', '#ffff00'];
 
   function goBack() {
     dispatch('back');
+  }
+
+  function startGame() {
+    dispatch('startGame', {
+      gridSize,
+      playerCount,
+      playerColors
+    });
   }
 </script>
 
@@ -24,11 +34,19 @@
         <label for="player-count">Players: {playerCount}</label>
         <input type="range" id="player-count" min="2" max="4" bind:value={playerCount}>
       </div>
+
+      {#each Array(playerCount) as _, i}
+        <div class="player-color-container">
+          <label for="player-color-{i}">Player {i + 1}</label>
+          <input type="color" id="player-color-{i}" bind:value={playerColors[i]}>
+        </div>
+      {/each}
+
       <div class="slider-container">
         <label for="grid-size">Grid Size: {gridSize}x{gridSize}</label>
         <input type="range" id="grid-size" min="4" max="12" bind:value={gridSize}>
       </div>
-      <button class="start-game">Start Game</button>
+      <button class="start-game" on:click={startGame}>Start Game</button>
     </main>
   </div>
 </div>
@@ -37,35 +55,30 @@
   .setup-container {
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    width: 100%;
-    color: white;
+    color: var(--text-color);
   }
 
   header {
     padding: 20px;
-    flex-shrink: 0; /* Prevent header from shrinking */
+    flex-shrink: 0;
   }
 
   .home-button {
     background: none;
-    border: 1px solid white;
-    color: white;
+    border: 1px solid var(--secondary-button-border-color);
+    color: var(--text-color);
     padding: 10px 20px;
     cursor: pointer;
   }
 
   .content-column {
-    flex-grow: 1; /* Allow content to fill remaining space */
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center content vertically */
-    align-items: center; /* Center content horizontally */
-    padding-bottom: 80px; /* Add padding to push content up from the bottom */
+    align-items: center;
   }
 
   h1 {
-    margin: 0 0 40px 0;
+    margin: 40px 0;
     text-align: center;
     font-size: 3em;
   }
@@ -92,9 +105,26 @@
     width: 100%;
   }
 
+  .player-color-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    max-width: 400px;
+    margin: 10px 0;
+  }
+
+  input[type="color"] {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
   .start-game {
-    background-color: #6d28d9;
-    color: white;
+    background-color: var(--primary-button-color);
+    color: var(--primary-button-text-color);
     padding: 15px 30px;
     border: none;
     border-radius: 5px;
